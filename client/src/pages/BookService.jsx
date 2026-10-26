@@ -10,7 +10,8 @@ const devices = [
   { id: 'tv', name: 'Television', icon: Tv, color: 'text-pink-400', bg: 'from-pink-500 to-rose-400' },
   { id: 'appliance', name: 'Appliance', icon: Wind, color: 'text-orange-400', bg: 'from-orange-400 to-amber-500' },
 ];
-
+const [devicePhotos,setDevicePhotos]=useState([]);
+const [photoError,setPhotoError]=useState('');
 const variants = {
   enter: (direction) => ({
     x: direction > 0 ? 100 : -100, opacity: 0
@@ -34,6 +35,36 @@ const BookService = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const handlePhotoChange=(e)=>{
+    const files=Array.from(e.target.files||[]);
+    setPhotoError('');
+    if(devicePhotos.length+files.length>5){
+      setPhotoError('You can upload a max of 5 photos');
+      e.target.value='';
+      return;
+    }
+    const validFiles=[];
+    for(const file of files){
+      if(!file.type.startsWith('image/')){
+        setPhotoError('Pleas select image files only.');
+        break;
+      }
+      if(file.size>5*1024*1024){
+        setPhotoError('Each photo must be smaller than 5MB');
+        break;
+      }
+      validFiles.push(file);
+    }
+    if(photoError)return;
+    setDevicePhotos((prev)=>[
+      ...prev,
+      ...validFiles
+    ].slice(0,5));
+    e.target.value='';
+    };
+    const removePhoto=(index)=>{
+      setDevicePhotos((prev)=>prev.filter((_,i)=>i!==index));
+  };
   const navigate = useNavigate();
 
   const paginate = (newStep) => {
