@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import dotenv from 'dotenv';
+import{CloudinaryStorage}from "multer-storage-cloudinary";
 
 dotenv.config();
 
@@ -79,4 +80,12 @@ export const profileImageStorage = new CustomCloudinaryStorage({
   },
 });
 
+export const repairPhotoStorage=new CloudinaryStorage({
+  cloudinary:cloudinary,
+  params:{
+    folder:"regadgets/repairs",
+    allowed_formats:["jpg","jpeg","png","webp"],
+    
+  },
+});
 export { cloudinary };

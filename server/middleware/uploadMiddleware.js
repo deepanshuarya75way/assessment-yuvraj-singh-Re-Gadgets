@@ -1,4 +1,8 @@
 import multer from 'multer';
+import{repairPhotoStorage}from"../config/cloudinary.js";
+const upload=multer({
+  storage:repairPhotoStorage,
+});
 import {
   idProofStorage,
   certStorage,
@@ -53,3 +57,21 @@ export const uploadProfileImage = multer({
   limits: { fileSize: 2 * 1024 * 1024 },
   fileFilter: imageFileFilter,
 }).single('profileImage');
+
+export const uploadRepairPhotos=multer({
+  storage:repairPhotoStorage,
+  limits:{
+    fileSize:5*1021*1024,
+    files:5,
+  },
+  fileFilter:(req,file,cb)=>{
+    if
+    (file.mimetype.startsWith("/image")){
+      cb(null,true);
+    }
+    else{
+      cb(new Error("Only image files are allowed!"),false);
+    }
+  },
+}).array("photos",5);
+export default upload;

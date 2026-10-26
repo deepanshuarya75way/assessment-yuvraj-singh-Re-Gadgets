@@ -22,6 +22,44 @@ const repairBookingSchema = new mongoose.Schema(
       enum: ['pending', 'payment_pending', 'confirmed', 'completed', 'cancelled'],
       default: 'pending',
     },
+
+    repairDetails:{
+      reportedIssues:{
+        type:[String],
+        default:[],
+      },
+      servicePerformed:{
+        type:[String],
+        default:[],
+      },
+      replacedParts:[
+        {
+          name:{type:String,trim:true},
+          cost:{type:Number,min:0,default:0},
+        },
+      ],
+
+      totalRepairCost:{
+        type:Number,
+        min:0,
+        default:0,
+      },
+      warrantyDays:{
+        type:Number,
+        min:0,
+        default:0,
+      },
+      completedAt:Date,
+    },
+    beforePhotos:{
+      type:[String],
+      default:[],
+    },
+    afterPhotos:{
+      type:[String],
+      default:[],
+    },
+    
     isPaid: { type: Boolean, default: false },
     razorpayOrderId: String,
     razorpayPaymentId: String,
