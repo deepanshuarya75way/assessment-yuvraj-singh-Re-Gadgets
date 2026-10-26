@@ -65,6 +65,9 @@ const BookService = () => {
     const removePhoto=(index)=>{
       setDevicePhotos((prev)=>prev.filter((_,i)=>i!==index));
   };
+  
+  
+  
   const navigate = useNavigate();
 
   const paginate = (newStep) => {
